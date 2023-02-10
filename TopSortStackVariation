@@ -1,0 +1,63 @@
+package Graph.DirectedGraphs;
+
+/*
+Topological sort is an ordering of the nodes of an acyclic graph in which
+    - contains all the elements in the graph
+    - if A comes before B (meaning if we start at the root, we will get to A first, then B)
+    - then A would come before B in the sort
+
+How it works:
+    - Run a DFS, and add the results for each Node to a slack
+    - Code might have a clearer explanation
+ */
+
+import java.io.*;
+import java.util.*;
+
+public class TopologicalSorting {
+
+    int vertex;
+    ArrayList<Integer>[] adjList;
+
+    TopologicalSorting(int v){
+        vertex = v;
+        adjList = new ArrayList[v];
+        for(int i = 0; i < v; i++){
+            adjList[i] = new ArrayList<>();
+        }
+    }
+
+    void addEdge(int fromm, int to){
+        adjList[fromm].add(to);
+    }
+
+    void topologicalSort(){
+        Stack<Integer> stack = new Stack<>();
+        boolean[] visited = new boolean[vertex];
+
+        for(int i = 0; i < vertex; i++){
+            if(!visited[i]){
+
+                //array and stack are passed bu key, not by value. In so it works very well in this case
+                topologicalSortUtil(i, visited, stack);
+            }
+        }
+
+        while(!stack.empty()){
+            System.out.print(stack.pop()+" ");
+        }
+
+    }
+
+    void topologicalSortUtil(int v, boolean visited[], Stack<Integer> stack){
+        visited[v] = true;
+        for(int w : adjList[v]){
+            if(!visited[w]){
+                topologicalSortUtil(w, visited,stack);
+            }
+        }
+        stack.push(v);
+
+    }
+
+}
