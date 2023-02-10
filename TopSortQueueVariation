@@ -1,0 +1,93 @@
+import java.io.*;
+import java.util.*;
+
+public class TopologicalSortQueueVar {
+
+    public static void main(String[] args) {
+        int n = 0;//the number of nodes
+
+        int[] indeg = new int[n];
+        Queue<Integer> queue = new PriorityQueue<>();
+
+        ArrayList<Integer>[] adjList = new ArrayList[n];
+        //adds the edges in a adjacency list
+        //record the in degree value
+
+        for (int i = 0; i < n; i++) {
+            if(indeg[n] == 0){
+                queue.add(n);
+            }
+        }
+
+        int counter = 0;
+        while(!queue.isEmpty()){
+            int v = queue.poll();
+            counter++;
+            for (int to: queue
+                 ) {
+                indeg[to]--;
+                if(indeg[to] == 0){
+                    queue.add(to);
+                }
+                
+            }
+        }
+
+        if(counter != n){
+            System.out.println("cycle");
+        }
+
+
+
+    }
+
+
+}
+
+
+package Graph.DirectedGraphs;
+
+import java.io.*;
+import java.util.*;
+
+public class TopologicalSortQueueVar {
+
+    public static void main(String[] args) {
+        int n = 0;//the number of nodes
+
+        int[] indeg = new int[n];
+        Queue<Integer> queue = new PriorityQueue<>();
+
+        ArrayList<Integer>[] adjList = new ArrayList[n];
+        //adds the edges in a adjacency list
+        //record the in degree value
+
+        for (int i = 0; i < n; i++) {
+            if(indeg[n] == 0){
+                queue.add(n);
+            }
+        }
+
+        int counter = 0;
+        while(!queue.isEmpty()){
+            int v = queue.poll();
+            counter++;
+            for (int to: queue
+                 ) {
+                indeg[to]--;
+                if(indeg[to] == 0){
+                    queue.add(to);
+                }
+                
+            }
+        }
+
+        if(counter != n){
+            System.out.println("cycle");
+        }
+
+    }
+
+}
+
+
