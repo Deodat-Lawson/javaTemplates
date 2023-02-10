@@ -1,0 +1,101 @@
+
+/*
+Kruskal's Algorithm:
+- The initial spanning tree only contains the nodes of the graph and does not contain any edges
+- Then the algorithm goes through the edges ordered by their weights and always add an edge to the tree if it doesn't create a cycle
+
+ */
+
+
+import java.util.*;
+import java.io.*;
+
+public class KruskalsAlgo {
+    static int[] id;
+    static int[] size;
+    static int nodes;
+    static int edges;
+
+    KruskalsAlgo(int n) {
+        nodes = n;
+        id = new int[n];
+        for (int i = 0; i < n; i++) {
+            id[i] = i;
+            size[i] = i;
+        }
+
+    }
+
+    static int find(int p) {
+        if (p != id[p]) {
+            p = id[p];
+        }
+        return p;
+    }
+
+   static boolean connected(int p, int q) {
+        return find(p) == find(q);
+    }
+
+    static void unite(int p, int q) {
+        int i = find(p);
+        int j = find(q);
+        if (size[i] < size[j]) {
+            j = find(p);
+            i = find(q);
+        }
+
+        //add j onto i
+        size[i] += size[j];
+        id[j] = id[i];
+    }
+
+    public static void main(String[] args) {
+        int j = 0;
+        int numOfE = 0;
+
+        ArrayList<Edge> allEdges = new ArrayList<>();
+        //input all the edges
+        Collections.sort(allEdges, Edge.o);
+
+        //sorts all the edges from smallest weight to largest
+
+        ArrayList<Edge>[] adjList = new ArrayList[j];
+
+        for (int i = 0; i < allEdges.size(); i++) {
+            Edge curr = allEdges.get(i);
+            int a = curr.dest;
+            int b = curr.src;
+            if (!connected(a,b)) {
+                unite(a,b);
+                adjList[a].add(new Edge(a,b,curr.weight));
+                adjList[b].add(new Edge(b,a,curr.weight));
+            }
+        }
+
+    }
+
+    static class Edge {
+        int src, dest, weight;
+
+        Edge(int a, int b, int w) {
+            src = a;
+            dest = b;
+            weight = w;
+        }
+
+        public static Comparator<Edge> o = new Comparator<Edge>() {
+            @Override
+            public int compare(Edge o1, Edge o2) {
+                return (Integer.compare(o1.weight, o2.weight));
+            }
+        };
+
+    }
+
+}
+
+
+
+
+
