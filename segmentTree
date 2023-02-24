@@ -1,0 +1,63 @@
+package Graph.Tree;
+
+public class SegmentTree {
+  
+  Node[] seg;
+  int[] vals;
+   SegmentTree(int[] v){
+     //input for values
+     build(1, v.length, 1);
+   }
+   
+   void build(int left, int right, int num){
+     seg[num].left = left;
+     seg[num].right = right;
+
+     if(left == right){
+       seg[num].Min  = vals[num];
+       return;
+     }
+     
+     int mid = (left + right) /2 ;
+     build(left, mid, 2*mid);
+     build(mid+1, right, 2*mid + 1);
+     seg[num].Min = Math.min(seg[2*num].Min, seg[2*num + 1].Min);
+   }
+   
+   void update (int pos, int val, int num){
+     if(seg[num].left == pos && seg[num].right == pos){
+       seg[num].Min = val;
+       return;
+     }
+     int mid = (seg[num].left + seg[num].right)/2;
+     if(pos <= mid){
+       update(pos, val, 2*num);
+     }
+     else {
+       update(pos, val, 2*num + 1);
+     }
+     seg[num].Min = Math.min(seg[2*num].Min, seg[2*num + 1].Min);
+   }
+   
+   int query(int left, int right, int num){
+     if(seg[num].left == left && seg[num].right == right){
+       return seg[num].Min;
+     }
+     int mid = (seg[num].left + seg[num].right)/2;
+     if(right <= mid){
+       return query(left, right, 2*num);
+     }
+     else if(left > mid){
+       return query(left, right, 2*num );
+     }
+     else{
+       return Math.min (query(left, mid, 2*num), query(mid + 1, right, 2*num + 1));
+     }
+     
+   }
+  
+  class Node{
+    int left, right;
+    int Min;
+  }
+}
